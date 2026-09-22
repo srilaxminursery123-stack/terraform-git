@@ -1,22 +1,14 @@
-name: Terraform
+name: Terraform Apply
 
 on:
   workflow_dispatch:
-
-  push:
-    branches:
-      - main
-
-  pull_request:
-    branches:
-      - main
 
 permissions:
   contents: read
   id-token: write
 
 jobs:
-  terraform:
+  terraform-apply:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,9 +31,5 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan
-        run: terraform plan
-        
       - name: Terraform Apply
-        if: github.event_name == 'workflow_dispatch' || (github.ref == 'refs/heads/main' && github.event_name == 'push')
         run: terraform apply -auto-approve
